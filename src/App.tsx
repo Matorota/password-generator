@@ -26,7 +26,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
+    <main className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
       <Header />
       <Card>
         <PasswordDisplay password={password} />
@@ -41,7 +41,7 @@ function App() {
           <GenerateButton onClick={handleGeneratePassword} />
         </div>
       </Card>
-    </div>
+    </main>
   );
 }
 

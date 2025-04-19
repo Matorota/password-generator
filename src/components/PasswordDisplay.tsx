@@ -22,7 +22,8 @@ function PasswordDisplay({ password }: { password: string }) {
             strokeLinecap="round"
             strokeLinejoin="round"
 
-            // short term solution for img found on stackoverflow
+            // short term solution for img found on stackoverflow I DONT KNOW IF THIS IS THE RIGHT WAY THERE WORE NO IMG
+            // THAT WAS GIVEN AND THE IMG I FOUND WORE NOT FULLY PNG so i use stackoverflaw
             //d="M8 16h8m-4-4v8m4-8a4 4 0 11-8 0 4 4 0 018 0z"
           />
         </svg>
