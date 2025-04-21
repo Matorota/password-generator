@@ -1,12 +1,10 @@
+import { CalculactedStrength } from "../constants";
+import { PasswordGenerationOptions } from "../types";
+
 export function generatePasswordAndStrength(
   length: number,
-  options: {
-    uppercase: boolean;
-    lowercase: boolean;
-    numbers: boolean;
-    symbols: boolean;
-  }
-) {
+  options: PasswordGenerationOptions,
+): { generatedPassword: string; calculatedStrength: CalculactedStrength } {
   const { uppercase, lowercase, numbers, symbols } = options;
 
   const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -21,7 +19,10 @@ export function generatePasswordAndStrength(
   if (symbols) charPool += symbolChars;
 
   if (charPool.length === 0) {
-    return { generatedPassword: "", calculatedStrength: "NOTHING" };
+    return {
+      generatedPassword: "",
+      calculatedStrength: CalculactedStrength.None,
+    };
   }
 
   let generatedPassword = "";
@@ -30,20 +31,21 @@ export function generatePasswordAndStrength(
     generatedPassword += charPool[randomIndex];
   }
 
-  let calculatedStrength = "WEAK";
+  let calculatedStrength: CalculactedStrength = CalculactedStrength.None;
+
   if (length < 4) {
-    calculatedStrength = "NOTHING";
+    calculatedStrength = CalculactedStrength.TooWeak;
   } else if (length < 6 || (!uppercase && !lowercase && !numbers)) {
-    calculatedStrength = "WEAK";
+    calculatedStrength = CalculactedStrength.Weak;
   } else if (
     (uppercase && !lowercase && !numbers && !symbols) ||
     (!uppercase && lowercase && !numbers && !symbols)
   ) {
-    calculatedStrength = "WEAK";
+    calculatedStrength = CalculactedStrength.Weak;
   } else if (length < 15 || (uppercase && lowercase && !numbers && !symbols)) {
-    calculatedStrength = "MEDIUM";
+    calculatedStrength = CalculactedStrength.Medium;
   } else {
-    calculatedStrength = "STRONG";
+    calculatedStrength = CalculactedStrength.Strong;
   }
 
   return { generatedPassword, calculatedStrength };

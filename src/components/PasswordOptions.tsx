@@ -1,26 +1,26 @@
-function PasswordOptions({
+import { PasswordGenerationOptions } from "../types";
+import CheckboxInput from "./CheckboxInput";
+
+type Props = {
+  length: number;
+  setLength: (length: number) => void;
+  options: PasswordGenerationOptions;
+  setOptions: (options: PasswordGenerationOptions) => void;
+};
+
+export default function PasswordOptions({
   length,
   setLength,
   options,
   setOptions,
-}: {
-  length: number;
-  setLength: (value: number) => void;
-  options: {
-    uppercase: boolean;
-    lowercase: boolean;
-    numbers: boolean;
-    symbols: boolean;
-  };
-  setOptions: (value: any) => void;
-}) {
-  const toggleOption = (option: keyof typeof options) => {
+}: Props) {
+  const toggleOption = (option: keyof PasswordGenerationOptions) => {
     setOptions({ ...options, [option]: !options[option] });
   };
 
   return (
-    <div className="bg-gray-700 p-4  w-full">
-      <div className="flex items-center justify-between mb-2">
+    <div className="w-full bg-gray-700 p-4">
+      <div className="mb-2 flex items-center justify-between">
         <label htmlFor="length" className="text-sm">
           Character Length
         </label>
@@ -33,26 +33,21 @@ function PasswordOptions({
         max="20"
         value={length}
         onChange={(e) => setLength(Number(e.target.value))}
-        className="w-full mb-4 accent-green-500"
+        className="accent-green mb-4 w-full"
       />
       <div className="space-y-2">
         {Object.keys(options).map((option) => (
-          <div key={option} className="flex items-center">
-            <input
-              id={option}
-              type="checkbox"
-              checked={options[option as keyof typeof options]}
-              onChange={() => toggleOption(option as keyof typeof options)}
-              className="mr-2 accent-green-500"
-            />
-            <label htmlFor={option} className="text-sm capitalize">
-              Include {option.charAt(0).toUpperCase() + option.slice(1)}
-            </label>
-          </div>
+          <CheckboxInput
+            key={option}
+            id={option}
+            label={`Include ${option.charAt(0).toUpperCase() + option.slice(1)}`}
+            checked={options[option as keyof PasswordGenerationOptions]}
+            onChange={() =>
+              toggleOption(option as keyof PasswordGenerationOptions)
+            }
+          />
         ))}
       </div>
     </div>
   );
 }
-
-export default PasswordOptions;
