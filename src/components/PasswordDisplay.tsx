@@ -1,35 +1,27 @@
-function PasswordDisplay({ password }: { password: string }) {
+import { toast } from "sonner";
+import copyImg from "../assets/copy.svg";
+
+type Props = {
+  password: string;
+};
+
+export default function PasswordDisplay({ password }: Props) {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(password);
-    alert("Password copied to clipboard!");
+    toast("Password copied to clipboard!", {
+      style: { background: "#a4ffa4", color: "#24232c" },
+    });
   };
 
   return (
-    <div className="flex items-center justify-between bg-gray-700 p-4  mb-6   w-96">
-      <span className="text-lg font-mono text-white">{password}</span>
+    <div className="mb-6 flex w-96 items-center justify-between bg-gray-700 p-4">
+      <input disabled value={password} placeholder="P4$5W0rD!" />
       <button
         onClick={copyToClipboard}
-        className="text-green-400 hover:text-green-500 transition duration-200"
+        className="hover:cursor-pointer hover:opacity-80"
       >
-        <svg
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={2}
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-
-            // short term solution for img found on stackoverflow I DONT KNOW IF THIS IS THE RIGHT WAY THERE WORE NO IMG
-            // THAT WAS GIVEN AND THE IMG I FOUND WORE NOT FULLY PNG so i use stackoverflaw
-            //d="M8 16h8m-4-4v8m4-8a4 4 0 11-8 0 4 4 0 018 0z"
-          />
-        </svg>
+        <img src={copyImg} alt="Copy Icon" />
       </button>
     </div>
   );
 }
-
-export default PasswordDisplay;

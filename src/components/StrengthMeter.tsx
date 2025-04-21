@@ -1,36 +1,38 @@
-function StrengthMeter({ strength }: { strength: string }) {
-  const strengthLevels = {
-    NOTHING: { color: "bg-red-500", bars: 1 },
-    WEAK: { color: "bg-red-500", bars: 2 },
-    MEDIUM: { color: "bg-yellow-500", bars: 3 },
-    STRONG: { color: "bg-green-500", bars: 4 },
+import { CalculactedStrength } from "../constants";
+
+type StrengthLevels = Record<
+  CalculactedStrength,
+  { color: string; bars: number; text: string }
+>;
+
+type Props = {
+  strength: CalculactedStrength;
+};
+
+export default function StrengthMeter({ strength }: Props) {
+  const strengthLevels: StrengthLevels = {
+    none: { color: "bg-gray-600", bars: 0, text: "" },
+    tooWeak: { color: "bg-red", bars: 1, text: "Too Weak!" },
+    weak: { color: "bg-orange", bars: 2, text: "Weak" },
+    medium: { color: "bg-yellow", bars: 3, text: "Medium" },
+    strong: { color: "bg-green", bars: 4, text: "Strong" },
   };
 
-  const currentStrength = strengthLevels[
-    strength as keyof typeof strengthLevels
-  ] || {
-    color: "bg-gray-600",
-    bars: 0,
-  };
+  const currentStrength = strengthLevels[strength];
 
   return (
-    <div className="p-4 bg-gray-900 flex items-center justify-between mb-4 mt-4">
-      <span className="text-sm">STRENGTH</span>
+    <div className="mt-4 mb-4 flex items-center justify-between bg-gray-900 p-4">
+      <p className="text-sm">STRENGTH</p>
       <div className="flex items-center">
-        <span className="text-sm font-bold mr-2">{strength}</span>
+        <p className="mr-2 text-sm font-bold">
+          {strengthLevels[strength].text}
+        </p>
         <div className="flex space-x-1">
-          {[...Array(4)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-2 h-6 ${
-                i < currentStrength.bars ? currentStrength.color : "bg-gray-600"
-              }`}
-            ></div>
+          {[...Array(4)].map((_undefinedParameter, index) => (
+            <div key={index} className={`h-6 w-2 ${currentStrength.color}`} />
           ))}
         </div>
       </div>
     </div>
   );
 }
-
-export default StrengthMeter;
